@@ -4,7 +4,7 @@ Implementation based on "java_test.txt"
 ## What have I done?
 - Create SQL statement to adapt it to what it must do.
 - Create REST API to interact with the application (CRUD)
-- Implement some test to verify functionality.
+- Implement new test when there are more than one prices that meet the requeriments.
 - Generate documentation of the REST API.
 - Exception handle.
 
