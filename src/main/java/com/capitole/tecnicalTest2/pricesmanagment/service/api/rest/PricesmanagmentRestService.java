@@ -27,9 +27,10 @@ public interface PricesmanagmentRestService {
     @Operation(summary = "Final price of a product", description = "Returns a price for a product, brand and date")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a price for a product, brand and date", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PricesTo.class))}),
+            @ApiResponse(responseCode = "100", description = "Warning, something was not OK", content ={ @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
             @ApiResponse(responseCode = "500", description = "Something was wrong, please try again", content ={ @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
     })
-    ResponseEntity<PricesTo> getFinalPrice(@PathVariable("brand") Long brandId, @PathVariable("product") Long productId, @RequestParam String applicationDate);
+    ResponseEntity<? extends Object> getFinalPrice(@PathVariable("brand") Long brandId, @PathVariable("product") Long productId, @RequestParam String applicationDate);
 
 
 

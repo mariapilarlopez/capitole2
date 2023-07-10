@@ -1,5 +1,7 @@
 package com.capitole.tecnicalTest2;
 
+import com.capitole.common.handleExceptions.to.ErrorCode;
+import com.capitole.common.handleExceptions.to.ErrorResponse;
 import com.capitole.tecnicalTest2.pricesmanagment.logic.api.to.PricesTo;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,7 +107,10 @@ public class PricesRestApiTest extends AbstractTest {
                 .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
-        assertEquals(HttpStatus.MULTIPLE_CHOICES.value(), status);
+        assertEquals(HttpStatus.CONTINUE.value(), status);
+        String content = mvcResult.getResponse().getContentAsString();
+        ErrorResponse result = super.mapFromJson(content, ErrorResponse.class);
+        assertTrue(ErrorCode.MULTIPLERESULTS.value().equals(result.getError()) );
 
     }
 }

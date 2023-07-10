@@ -1,5 +1,6 @@
 package com.capitole.tecnicalTest2.pricesmanagment.logic.impl;
 
+import com.capitole.common.handleExceptions.to.ErrorCode;
 import com.capitole.common.handleExceptions.to.InternalErrorException;
 import com.capitole.tecnicalTest2.pricesmanagment.dataaccess.dao.PricesDao;
 import com.capitole.tecnicalTest2.pricesmanagment.logic.api.Pricesmanagment;
@@ -46,7 +47,9 @@ public class PricesmanagmentImpl implements Pricesmanagment {
         }else if (pricesToListPriority.size() == 0){
             return null;
         }else{
-            throw new InternalErrorException("Impossible get final price. Two or more products meet the requirements ");
+            InternalErrorException iee = new InternalErrorException("Impossible get final price. Two or more products meet the requirements ");
+            iee.setCode(ErrorCode.MULTIPLERESULTS);
+            throw iee;
         }
 
     }
