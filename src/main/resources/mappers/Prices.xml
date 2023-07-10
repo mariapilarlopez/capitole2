@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capitole.tecnicalTest2.pricesmanagment.dataaccess.dao.PricesDao">
+
+    <resultMap id="pricesResultTo" type="com.capitole.tecnicalTest2.pricesmanagment.logic.api.to.PricesTo">
+
+        <result property="brandId" column="BRAND_ID"/>
+        <result property="productId" column="PRODUCT_ID"/>
+        <result property="rateId" column="RATE_ID"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="price" column="PRICE"/>
+        <result property="currency" column="CURR"/>
+        <result property="priority" column="PRIORITY"/>
+
+    </resultMap>
+
+
+    <select id="getFinalPrice"  resultMap="pricesResultTo">
+        WITH PRICES_01 AS (SELECT PRICES.BRAND_ID, PRICES.PRODUCT_ID, PRICES.RATE_ID, PRICES.START_DATE,
+                                  PRICES.END_DATE, PRICES.PRICE, PRICES.CURR, PRICES.PRIORITY
+        FROM CAPITOLE.PRICES AS PRICES
+        WHERE 1=1
+        AND PRICES.PRODUCT_ID = #{productId}
+        AND PRICES.BRAND_ID = #{brandId}
+        AND PRICES.START_DATE <![CDATA[ <= ]]> #{applicationDateStr})
+        SELECT BRAND_ID, PRODUCT_ID, RATE_ID, START_DATE, END_DATE, PRICE, CURR, PRIORITY
+        FROM PRICES_01
+        WHERE END_DATE <![CDATA[ >= ]]> #{applicationDateStr}
+        ORDER BY PRIORITY DESC
+    </select>
+
+</mapper>
